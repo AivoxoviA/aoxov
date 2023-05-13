@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+
+var l = Logger();
 
 void main() {
   runApp(MyApp());
@@ -71,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    l.d('logger is working!');
     loadData();
   }
 
@@ -81,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await rootBundle.loadString('assets/data/uang.json');
     final data = await json.decode(response);
     dataUang = data;
-    print(dataUang);
+    l.d(dataUang);
   }
 
   @override
