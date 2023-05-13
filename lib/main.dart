@@ -72,23 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-    l.d('logger is working!');
-    loadData();
-  }
-
-  var dataUang = [];
-
-  Future<void> loadData() async {
-    final String response =
-        await rootBundle.loadString('assets/data/uang.json');
-    final data = await json.decode(response);
-    dataUang = data;
-    l.d(dataUang);
-  }
-
-  @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
 
@@ -186,11 +169,54 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class DataPage extends StatelessWidget {
+class DataPage extends StatefulWidget {
+  @override
+  State<DataPage> createState() => _DataPageState();
+}
+
+class _DataPageState extends State<DataPage> {
+  @override
+  void initState() {
+    super.initState();
+    l.d('logger is working!');
+    loadData();
+  }
+
+  var dataUang = [];
+
+  Future<void> loadData() async {
+    final String response =
+        await rootBundle.loadString('assets/data/uang.json');
+    final data = await json.decode(response);
+    dataUang = data;
+    l.d(dataUang);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('ok'),
+    return Scaffold(
+      appBar: AppBar(title: Text('Data Uang'),),
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          children: [
+            dataUang.isNotEmpty
+              ? Expanded(
+                child: ListView.builder(
+                  itemCount: dataUang.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        leading: Text(dataUang[index]['judul']),
+                      ),
+                    );
+                  }
+                )
+              )
+              : Container()
+          ],
+        ),
+      ),
     );
   }
 }
