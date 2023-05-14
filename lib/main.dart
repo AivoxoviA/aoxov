@@ -117,8 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         label: 'Favorites',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.data_array),
-                        label: 'Data',
+                        icon: Icon(Icons.money),
+                        label: 'Uang',
                       ),
                     ],
                     currentIndex: selectedIndex,
@@ -147,8 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         label: Text('Favorites'),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(Icons.data_array),
-                        label: Text('Data'),
+                        icon: Icon(Icons.money),
+                        label: Text('Uang'),
                       ),
                     ],
                     selectedIndex: selectedIndex,
@@ -189,31 +189,41 @@ class _DataPageState extends State<DataPage> {
         await rootBundle.loadString('assets/data/uang.json');
     final data = await json.decode(response);
     dataUang = data;
-    l.d(dataUang);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Data Uang'),),
+      appBar: AppBar(
+        title: Text('Jenis-jenis Uang'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
           children: [
             dataUang.isNotEmpty
-              ? Expanded(
-                child: ListView.builder(
-                  itemCount: dataUang.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        leading: Text(dataUang[index]['judul']),
-                      ),
-                    );
-                  }
-                )
-              )
-              : Container()
+                ? Expanded(
+                    child: ListView.builder(
+                        itemCount: dataUang.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: ListTile(
+                              leading: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: 256,
+                                  maxHeight: 256,
+                                ),
+                                child: Image(
+                                  image: AssetImage('assets/images/uang/uang-$index.jpg')
+                                ),
+                              ),
+                              title: Text(dataUang[index]['judul']),
+                              subtitle: dataUang[index]['tipe'] == 'Khusus'
+                                ? Text('Khusus') : Container(),
+                            ),
+                          );
+                        }))
+                : Container()
           ],
         ),
       ),
