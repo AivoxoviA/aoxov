@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+
+import 'daftar_uang_page.dart';
 
 var l = Logger();
 
@@ -84,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = FavoritesPage();
         break;
       case 2:
-        page = DataPage();
+        page = UangPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -164,76 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
         },
-      ),
-    );
-  }
-}
-
-class DataPage extends StatefulWidget {
-  @override
-  State<DataPage> createState() => _DataPageState();
-}
-
-class _DataPageState extends State<DataPage> {
-  List _items = [];
-
-  Future<void> loadData() async {
-    final String response =
-        await rootBundle.loadString('assets/data/uang.json');
-    final data = await json.decode(response);
-    setState(() {
-      dataUang = _items = data;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  var dataUang = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Jenis-jenis Uang'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          children: [
-            _items.isNotEmpty
-            ? Expanded(
-              child: ListView.builder(
-                itemCount: dataUang.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: 256,
-                          maxHeight: 256,
-                        ),
-                        child: Image(
-                          image: AssetImage(
-                            'assets/images/uang/uang-$index.jpg'
-                          )
-                        ),
-                      ),
-                      title: Text(dataUang[index]['judul']),
-                      subtitle: dataUang[index]['tipe'] == 'Khusus'
-                      ? Text('Khusus')
-                      : Container(),
-                    ),
-                  );
-                }
-              )
-            )
-            : Container()
-          ],
-        ),
       ),
     );
   }
