@@ -175,21 +175,24 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
-  @override
-  void initState() {
-    super.initState();
-    l.d('logger is working!');
-    loadData();
-  }
-
-  var dataUang = [];
+  List _items = [];
 
   Future<void> loadData() async {
     final String response =
         await rootBundle.loadString('assets/data/uang.json');
     final data = await json.decode(response);
-    dataUang = data;
+    setState(() {
+      dataUang = _items = data;
+    });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  var dataUang = [];
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +204,7 @@ class _DataPageState extends State<DataPage> {
         padding: const EdgeInsets.all(25),
         child: Column(
           children: [
-            dataUang.isNotEmpty
+            _items.isNotEmpty
                 ? Expanded(
                     child: ListView.builder(
                         itemCount: dataUang.length,
@@ -214,12 +217,13 @@ class _DataPageState extends State<DataPage> {
                                   maxHeight: 256,
                                 ),
                                 child: Image(
-                                  image: AssetImage('assets/images/uang/uang-$index.jpg')
-                                ),
+                                    image: AssetImage(
+                                        'assets/images/uang/uang-$index.jpg')),
                               ),
                               title: Text(dataUang[index]['judul']),
                               subtitle: dataUang[index]['tipe'] == 'Khusus'
-                                ? Text('Khusus') : Container(),
+                                  ? Text('Khusus')
+                                  : Container(),
                             ),
                           );
                         }))
