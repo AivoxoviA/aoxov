@@ -205,29 +205,33 @@ class _DataPageState extends State<DataPage> {
         child: Column(
           children: [
             _items.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
-                        itemCount: dataUang.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              leading: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxWidth: 256,
-                                  maxHeight: 256,
-                                ),
-                                child: Image(
-                                    image: AssetImage(
-                                        'assets/images/uang/uang-$index.jpg')),
-                              ),
-                              title: Text(dataUang[index]['judul']),
-                              subtitle: dataUang[index]['tipe'] == 'Khusus'
-                                  ? Text('Khusus')
-                                  : Container(),
-                            ),
-                          );
-                        }))
-                : Container()
+            ? Expanded(
+              child: ListView.builder(
+                itemCount: dataUang.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 256,
+                          maxHeight: 256,
+                        ),
+                        child: Image(
+                          image: AssetImage(
+                            'assets/images/uang/uang-$index.jpg'
+                          )
+                        ),
+                      ),
+                      title: Text(dataUang[index]['judul']),
+                      subtitle: dataUang[index]['tipe'] == 'Khusus'
+                      ? Text('Khusus')
+                      : Container(),
+                    ),
+                  );
+                }
+              )
+            )
+            : Container()
           ],
         ),
       ),
