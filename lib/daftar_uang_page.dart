@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class UangPage extends StatefulWidget {
+class DaftarUangPage extends StatefulWidget {
   @override
-  State<UangPage> createState() => _UangPageState();
+  State<DaftarUangPage> createState() => _DaftarUangPageState();
 }
 
-class _UangPageState extends State<UangPage> {
+class _DaftarUangPageState extends State<DaftarUangPage> {
   List _items = [];
 
   Future<void> loadData() async {
@@ -34,7 +34,7 @@ class _UangPageState extends State<UangPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jenis-jenis Uang'),
+        title: Text('Daftar Uang'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25),
